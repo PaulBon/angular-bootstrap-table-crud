@@ -1,0 +1,11 @@
+<div class="container">
+	<div class="form-group">
+	  <label for="typeahead-http">Search for a wiki page:</label>
+	  <input id="typeahead-http" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" placeholder="Wikipedia search" style="width: 400px; display: inline; margin-left: 5px; margin-right: 5px;" />
+	  <div *ngIf="isProcessing" class="spinner-border text-primary">
+		<span class="sr-only">Loading...</span>
+	  </div>
+    </div>
+    
+    <p>This is an example of an autocomplete control with server-side processing. A loading spinner is displayed while it retrieves the results from the server.</p>
+</div>

@@ -1,0 +1,103 @@
+.table-container {
+  height: 80vh;			/* Have table take up 80% of the browser's viewport height. */
+  overflow-y: scroll;	/* Always display y-axis scrollbar so table size doesn't change when the need for the scrollbar changes. */
+}
+
+.table-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-sticky th {
+  background: #fff;
+  position: sticky;
+  top: -1px;
+  z-index: 990;
+}
+
+.column-filtered {
+  background-color: gainsboro;
+}
+
+.column-not-filtered {
+  background-color: white;
+}
+
+.detail-row-collapsed {
+  visibility: collapse;
+}
+
+.detail-row-expanded {
+  visibility: visible;
+  background-color: whitesmoke;
+}
+
+/* Make table zebra stripped. Due to detail rows, need to start with 1st row and stripe every 4th row. */
+.table tr:nth-child(4n+1) {
+  background-color: #f2f2f2
+}
+
+/* Highlight rows on hover. */
+.table tr.masterRow:hover {
+  background-color: #ddd;
+}
+
+/* Column Widths */
+#studentSchoolId {
+  width: 140px;
+}
+
+#expandDetailColumn {
+  width: 40px;
+  cursor: pointer;
+}
+
+#selectionColumn{
+  width: 40px;
+}
+
+#commandColumn {
+  width: 80px;
+}
+
+button {
+  width: 100px;
+}
+
+i {
+  cursor: pointer;
+}
+
+input[type='checkbox'] {
+  cursor: pointer;
+}
+
+span[sortable] {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+span[sortable].desc:before, span[sortable].asc:before {
+  content: '';
+  display: block;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmxJREFUeAHtmksrRVEUx72fH8CIGQNJkpGUUmakDEiZSJRIZsRQmCkTJRmZmJgQE0kpX0D5DJKJgff7v+ru2u3O3vvc67TOvsdatdrnnP1Y///v7HvvubdbUiIhBISAEBACQkAICAEhIAQ4CXSh2DnyDfmCPEG2Iv9F9MPlM/LHyAecdyMzHYNwR3fdNK/OH9HXl1UCozD24TCvILxizEDWIEzA0FcM8woCgRrJCoS5PIwrANQSMAJX1LEI9bqpQo4JYNFFKRSvIgsxHDVnqZgIkPnNBM0rIGtYk9YOOsqgbgepRCfdbmFtqhFkVEDVPjJp0+Z6e6hRHhqBKgg6ZDCvYBygVmUoEGoh5JTRvIJwhJo1aUOoh4CLPMyvxxi7EWOMgnCGsXXI1GIXlZUYX7ucU+kbR8NW8lh3O7cue0Pk32MKndfUxQFAwxdirk3fHappAnc0oqDPzDfGTBrCfHP04dM4oTV8cxr0SVzH9FF07xD3ib6xCDE+M+aUcVygtWzzbtGX2rPBrEUYfecfQkaFzYi6HjVnGBdtL7epqAlc1+jRdAap74RrnPc4BCijttY2tRcdN0g17w7HqZrXhdJTYAuS3hd8z+vKgK3V1zWPae0mZDMykadBn1hTQBLnZNwVrJpSe/NwEeDsEwCctEOsJTsgxLvCqUl2ACftEGvJDgjxrnBqkh3ASTvEWrIDQrwrnJpkB3DSDrGW7IAQ7wqnJtkBnLRztejXXVu4+mxz/nQ9jR1w5VB86ejLTFcnnDwhzV+F6T+CHZlx6THSjn76eyyBIOPHyDakhBAQAkJACAgBISAEhIAQYCLwC8JxpAmsEGt6AAAAAElFTkSuQmCC') no-repeat;
+  background-size: 22px;
+  width: 22px;
+  height: 22px;
+  float: left;
+  margin-left: -22px;
+}
+
+span[sortable].desc:before {
+  transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+}

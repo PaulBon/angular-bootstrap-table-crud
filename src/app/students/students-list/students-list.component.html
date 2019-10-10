@@ -1,0 +1,122 @@
+<form>
+
+<div class="table-loading-shade" *ngIf="isProcessing">
+  <div *ngIf="isProcessing" class="spinner-border text-primary" style="width: 80px; height: 80px;">
+	<span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+  <div class="table-container">
+	<table class="table table-sticky">
+	  <thead>
+	  <tr>
+	    <th scope="col"><div class="form-check"><input class="form-check-input position-static" type="checkbox" value="" (click)="$event ? masterToggle() : null" [checked]="hasSelected() && isAllSelected()" [indeterminate]="hasSelected() && !isAllSelected()"></div></th>
+	    <th scope="col"><!-- The expand/collapse arrow for the student detail row. --></th>
+		<th scope="col" #tdStudentId><span sortable="studentSchoolId" (sort)="onSort($event)">Student Id</span><i class="material-icons column-filtered" placement="bottom" container="body" ngbTooltip="Filter by Student Id" (click)="openTextFilterDialog(tdStudentId, 'studentSchoolId', 'Student Id')" [ngClass]="getColumnFilterClass('studentSchoolId')">filter_list</i></th>
+		<th scope="col" #tdFirstName><span sortable="firstName" (sort)="onSort($event)">First Name</span><i class="material-icons column-not-filtered" placement="bottom" container="body" ngbTooltip="Filter by First Name" (click)="openTextFilterDialog(tdFirstName, 'firstName', 'First Name')" [ngClass]="getColumnFilterClass('firstName')">filter_list</i></th>
+		<th scope="col" #tdLastName><span sortable="lastName" (sort)="onSort($event)">Last Name</span><i class="material-icons" placement="bottom" container="body" ngbTooltip="Filter by Last Name" (click)="openTextFilterDialog(tdLastName, 'lastName', 'Last Name')" [ngClass]="getColumnFilterClass('lastName')">filter_list</i></th>
+		<th scope="col" #tdStudentEmail><span sortable="studentEmail" (sort)="onSort($event)">Student Email</span><i class="material-icons" placement="bottom" container="body" ngbTooltip="Filter by Student Email" (click)="openTextFilterDialog(tdStudentEmail, 'studentEmail', 'Student Email')" [ngClass]="getColumnFilterClass('studentEmail')">filter_list</i></th>
+		<th scope="col">
+		  <i class="material-icons" placement="bottom" container="body" ngbTooltip="Add student" (click)="onAddStudentClick()">add_box</i>
+		  <i class="material-icons" placement="bottom" container="body" ngbTooltip="Delete selected" (click)="onDeleteSelectedClick()">delete_sweep</i>
+		</th>
+	  </tr>
+	  </thead>
+	  <tbody>
+	    <tr *ngIf="isAdding">
+		  <td [attr.colspan]="2"></td>
+		  <td>
+			<input type="text" class="form-control" [formControl]="studentSchoolIdFormControl" style="width: 140px;" />
+			<div *ngIf="studentSchoolIdFormControl.invalid && (studentSchoolIdFormControl.dirty || studentSchoolIdFormControl.touched)" class="text-danger"><small>{{getErrorMessage(studentSchoolIdFormControl)}}</small></div>
+		  </td>
+		  <td>
+			<input type="text" class="form-control" [formControl]="firstNameFormControl"  />
+			<div *ngIf="firstNameFormControl.invalid && (firstNameFormControl.dirty || firstNameFormControl.touched)" class="text-danger"><small>{{getErrorMessage(firstNameFormControl)}}</small></div>
+		  </td>
+		  <td>
+			<input type="text" class="form-control" [formControl]="lastNameFormControl"  />
+			<div *ngIf="lastNameFormControl.invalid && (lastNameFormControl.dirty || lastNameFormControl.touched)" class="text-danger"><small>{{getErrorMessage(lastNameFormControl)}}</small></div>
+		  </td>
+		  <td>
+			<input type="text" class="form-control" [formControl]="studentEmailFormControl"  />
+			<div *ngIf="studentEmailFormControl.invalid && (studentEmailFormControl.dirty || studentEmailFormControl.touched)" class="text-danger"><small>{{getErrorMessage(studentEmailFormControl)}}</small></div>
+		  </td>
+		  <td>
+			<i *ngIf="isAddDisabled()" class="material-icons" placement="bottom" container="body" ngbTooltip="Save" style="color:gray">done</i>
+			<i *ngIf="!isAddDisabled()" class="material-icons" placement="bottom" container="body" ngbTooltip="Save" (click)="onAddClick()">done</i>
+			<i class="material-icons" placement="bottom" container="body" ngbTooltip="Cancel" (click)="onCancelAddClick()">close</i>
+		  </td>
+		</tr>
+		
+	    <ng-container *ngFor="let student of students">
+		<!-- The master row for each student. -->
+		<tr class="masterRow">
+		  <td id="selectionColumn"><div class="form-check"><input class="form-check-input position-static" type="checkbox" value=""(click)="$event.stopPropagation()" (change)="$event ? studentToggle(student) : null" [checked]="selectedStudents.has(student)"></div></td>
+		  <td id="expandDetailColumn">
+		    <i *ngIf="!isStudentExpanded(student.studentId)" (click)="expandStudent(student.studentId)" class="material-icons">arrow_right</i>
+		    <i *ngIf="isStudentExpanded(student.studentId)" (click)="collapseStudent(student.studentId)" class="material-icons">arrow_drop_down</i>
+		  </td>
+		  <td scope="row" id="studentSchoolId">
+		    <span *ngIf="!isEditingStudent(student.studentId)">{{student.studentSchoolId}}</span>
+			<span *ngIf="isEditingStudent(student.studentId)">
+				<input type="text" class="form-control" [formControl]="studentSchoolIdFormControl" />
+				<div *ngIf="studentSchoolIdFormControl.invalid && (studentSchoolIdFormControl.dirty || studentSchoolIdFormControl.touched)" class="text-danger"><small>{{getErrorMessage(studentSchoolIdFormControl)}}</small></div>
+			</span>
+		  </td>
+		  <td scope="row">
+		    <span *ngIf="!isEditingStudent(student.studentId)">{{student.firstName}}</span>
+			<span *ngIf="isEditingStudent(student.studentId)">
+				<input type="text" class="form-control" [formControl]="firstNameFormControl"  />
+				<div *ngIf="firstNameFormControl.invalid && (firstNameFormControl.dirty || firstNameFormControl.touched)" class="text-danger"><small>{{getErrorMessage(firstNameFormControl)}}</small></div>
+			</span>
+		  </td>
+		  <td scope="row">
+		    <span *ngIf="!isEditingStudent(student.studentId)">{{student.lastName}}</span>
+			<span *ngIf="isEditingStudent(student.studentId)">
+				<input type="text" class="form-control" [formControl]="lastNameFormControl"  />
+				<div *ngIf="lastNameFormControl.invalid && (lastNameFormControl.dirty || lastNameFormControl.touched)" class="text-danger"><small>{{getErrorMessage(lastNameFormControl)}}</small></div>
+			</span>
+		  </td>
+		  <td scope="row">
+		    <span *ngIf="!isEditingStudent(student.studentId)">{{student.studentEmail}}</span>
+			<span *ngIf="isEditingStudent(student.studentId)">
+				<input type="text" class="form-control" [formControl]="studentEmailFormControl"  />
+				<div *ngIf="studentEmailFormControl.invalid && (studentEmailFormControl.dirty || studentEmailFormControl.touched)" class="text-danger"><small>{{getErrorMessage(studentEmailFormControl)}}</small></div>
+			</span>
+		  </td>
+		  <td id="commandColumn" scope="row">
+		  	<span *ngIf="!isEditingStudent(student.studentId)">
+				<i class="material-icons" placement="bottom" container="body" ngbTooltip="Edit student" (click)="onEditClick(student.studentId)">edit</i>
+				<i class="material-icons" placement="bottom" container="body" ngbTooltip="Delete student" (click)="onDeleteClick(student.studentId)">delete</i>
+		    </span>
+		  	<span *ngIf="isEditingStudent(student.studentId)">
+				<i *ngIf="isUpdateDisabled()" class="material-icons" placement="bottom" container="body" ngbTooltip="Save" style="color:gray">done</i>
+				<i *ngIf="!isUpdateDisabled()" class="material-icons" placement="bottom" container="body" ngbTooltip="Save" (click)="onUpdateClick()">done</i>
+				<i class="material-icons" placement="bottom" container="body" ngbTooltip="Cancel" (click)="onCancelEditClick()">close</i>
+		    </span>
+		  </td>
+		</tr>
+		
+		<!-- The detail row for each student. -->
+		<tr [ngClass]="getStudentDetailClass(student.studentId)">
+		  <td colspan="7"><app-student-detail [studentId]="student.studentId" [isExpanded]="isStudentExpanded(student.studentId)"></app-student-detail></td>
+		</tr>
+		</ng-container>
+	  </tbody>
+	</table>
+  </div>
+
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="totalStudents" [(page)]="page" [pageSize]="pageSize" (pageChange)="onPageChange()">
+    </ngb-pagination>
+
+    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option [ngValue]="5">5 items per page</option>
+      <option [ngValue]="10">10 items per page</option>
+      <option [ngValue]="15">15 items per page</option>
+      <option [ngValue]="20">20 items per page</option>
+      <option [ngValue]="25">25 items per page</option>
+    </select>
+  </div>
+
+</form>

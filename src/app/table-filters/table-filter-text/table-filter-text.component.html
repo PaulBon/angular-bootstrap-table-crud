@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}}</h4>
+</div>
+<div class="modal-body">
+  <p>Show items with value that:</p>
+  
+  <p>
+  <select class="custom-select" [(ngModel)]="operator">
+    <option *ngFor="let op of operators" [value]="op">{{op}}</option>
+  </select>
+  </p>
+
+  <p><input type="text" class="form-control" [(ngModel)]="value"></p>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-primary" (click)="onFilterClick()">Filter</button>
+  &nbsp;&nbsp;
+  <button type="button" class="btn btn-outline-primary" (click)="onClearClick()">Clear</button>
+</div>
