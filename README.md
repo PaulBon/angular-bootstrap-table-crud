@@ -1,27 +1,42 @@
-# SapproNgb
+# Angular ng-bootstrap CRUD Table
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.6.
+The main purpose of this project is to provide an example of an Angular ng-bootstrap table with the following features:
 
-## Development server
+- add, update and delete records
+- inline editing
+- checkbox selection
+- per column filtering
+- server-side paging, filtering and sorting
+- parent-child records display
+- multiple table headers
+- sticky table headers
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This project also provides examples for:
 
-## Code scaffolding
+- an autocomplete control with server-side processing
+- lazy loading of modules
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Table of Contents
 
-## Build
+* [License](#license)
+* [Demo](#demo)
+* [Getting Started](#getting-started)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## License
 
-## Running unit tests
+This software is provided free of charge and without restriction under the [MIT License](LICENSE.md)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Demo
 
-## Running end-to-end tests
+A demo of the project can be run on [StackBlitz](https://stackblitz.com/github/PaulBon/angular-bootstrap-table-crud). Please be patient as StackBlitz imports the project and loads the dev server.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Getting Started
 
-## Further help
+> **Node.js** and the package manager **npm** must be installed ([nodejs.org](https://nodejs.org/en/)).
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```bash
+git clone https://github.com/PaulBon/angular-bootstrap-table-crud.git
+cd angular-bootstrap-table-crud
+npm install
+ng serve -o
+```
