@@ -1,6 +1,6 @@
 # Angular ng-bootstrap CRUD Table
 
-The main purpose of this project is to provide an example of an Angular ng-bootstrap table with the following features:
+The main purpose of this project is to provide an example of an Angular [ng-bootstrap](https://ng-bootstrap.github.io/#/home) table with the following features:
 
 - add, update and delete records
 - inline editing
