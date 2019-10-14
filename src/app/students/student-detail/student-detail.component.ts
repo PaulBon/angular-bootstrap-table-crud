@@ -50,13 +50,16 @@ export class StudentDetailComponent implements AfterViewInit, OnChanges {
             this.studentsHttpClient = new StudentsHttpClient();
         }
 
-        this.headers.forEach(header => {
-            if (header.sortable === this.sortColumn) {
-                header.direction = this.sortDirection;
-            }
-        });
-
-        this.reloadStudentDetails();
+        // Reload the student details passing in a post load function that inits the initial sort header after the details are reloaded.
+        // This must be done after the details are loaded to avoid an ExpressionChangedAfterItHasBeenCheckedError.
+        const postLoadFunction = (): void => {
+            this.headers.forEach(header => {
+                if (header.sortable === this.sortColumn) {
+                    header.direction = this.sortDirection;
+                }
+            });
+        };
+        this.reloadStudentDetails(postLoadFunction);
     }
 
     /**
@@ -116,8 +119,10 @@ export class StudentDetailComponent implements AfterViewInit, OnChanges {
 
     /**
      * Called to reload the student details after events like sorting, paging, etc.
+     *
+     * @param postLoadFunction the optional function to call after the student details are reloaded
      */
-    reloadStudentDetails(): void {
+    reloadStudentDetails(postLoadFunction?: () => void) : void {
         this.isProcessing = true;
         this.studentsHttpClient.getStudentDetail(this.studentId, this.sortColumn, this.sortDirection, this.page - 1, this.pageSize).pipe(
             map(studentDetailList => { // the function to apply to the StudentDetailList observable
@@ -125,6 +130,12 @@ export class StudentDetailComponent implements AfterViewInit, OnChanges {
                 this.totalDetails = studentDetailList.totalDetails;
                 return studentDetailList.details;
             }),
-        ).subscribe(studentDetails => { this.studentDetails = studentDetails; });
+        ).subscribe(studentDetails => {
+            this.studentDetails = studentDetails;
+
+            if (postLoadFunction !== undefined) {
+                postLoadFunction();
+            }
+        });
     }
 }

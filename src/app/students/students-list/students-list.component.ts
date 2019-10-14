@@ -58,14 +58,18 @@ export class StudentsListComponent implements AfterViewInit {
     ngAfterViewInit() {
         this.studentsHttpClient = new StudentsHttpClient();
 
-        this.headers.forEach(header => {
-            if (header.sortable === this.sortColumn) {
-                header.direction = this.sortDirection;
-            }
-        });
-
         // Reload the students passing in a post load function that collapses all detail rows
-        const postLoadFunction = (): void => { this.expandedStudents.clear(); };
+        // and inits the initial sort header after the students are reloaded.
+        // This must be done after the students are loaded to avoid an ExpressionChangedAfterItHasBeenCheckedError.
+        const postLoadFunction = (): void => {
+            this.expandedStudents.clear();
+
+            this.headers.forEach(header => {
+                if (header.sortable === this.sortColumn) {
+                    header.direction = this.sortDirection;
+                }
+            });
+        };
         this.reloadStudents(postLoadFunction);
     }
 
