@@ -122,7 +122,7 @@ export class StudentDetailComponent implements AfterViewInit, OnChanges {
      *
      * @param postLoadFunction the optional function to call after the student details are reloaded
      */
-    reloadStudentDetails(postLoadFunction?: () => void) : void {
+    reloadStudentDetails(postLoadFunction?: () => void): void {
         this.isProcessing = true;
         this.studentsHttpClient.getStudentDetail(this.studentId, this.sortColumn, this.sortDirection, this.page - 1, this.pageSize).pipe(
             map(studentDetailList => { // the function to apply to the StudentDetailList observable
