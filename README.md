@@ -3,7 +3,7 @@
 The main purpose of this project is to provide an example of an Angular [ng-bootstrap](https://ng-bootstrap.github.io/#/home) table with the following features:
 
 - add, update and delete records
-- inline editing
+- inline editing with sync and async validation
 - checkbox selection
 - per column filtering
 - server-side paging, filtering and sorting
